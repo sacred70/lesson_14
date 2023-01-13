@@ -1,4 +1,5 @@
 import sqlite3
+import pprint
 
 name_film = "Yeh Meri Family"
 
@@ -29,4 +30,4 @@ def search_title(name_film:str):
                    'description': row[4]} for row in result]
     return movie_list
 
-print(search_title(name_film))
+pprint.pprint( search_title(name_film), indent=1)
