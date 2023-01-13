@@ -1,6 +1,6 @@
 import sqlite3
 
-name_film = 'Zapped'
+name_film = "Yeh Meri Family"
 
 DB_PATH = 'netflix.db'  # Путь к БД
 
@@ -13,13 +13,13 @@ def cursor_fetchall(db_path, query):
         return result
 
 
-def search_title(name_film):
+def search_title(name_film:str):
     """Реализуйте поиск по названию.
      Если таких фильмов несколько,
      выведите самый свежий."""
 
 
-    query = f"""SELECT title, country, release_year, listed_in, description FROM netflix WHERE title = {name_film} ORDER BY date_added desc LIMIT 1"""
+    query = f"""SELECT title, country, release_year, listed_in, description FROM netflix WHERE title = '{name_film}' ORDER BY date_added desc LIMIT 1"""
 
     result = cursor_fetchall(DB_PATH, query)
     movie_list = [{'title': row[0],
