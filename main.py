@@ -45,6 +45,4 @@ def search_genre_10(genre):
     return search_genre(genre)
 
 
-
-
 app.run()

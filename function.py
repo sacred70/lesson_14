@@ -17,11 +17,11 @@ def cursor_fetchall(db_path, query):
         return result
 
 
-def search_title(name_movie:str):
+def search_title(name_movie: str):
+
     """Реализуйте поиск по названию.
      Если таких фильмов несколько,
      выведите самый свежий."""
-
 
     query = f"""SELECT title, country, release_year, listed_in, description 
     FROM netflix 
@@ -58,7 +58,6 @@ def search_rating(inquiry):
         WHERE rating = 'R' OR rating = 'NC-17'"""
     else:
         return "Такого варианта нет"
-
 
     result = cursor_fetchall(DB_PATH, query)
     movie_list = [{'title': row[2],
@@ -101,4 +100,16 @@ def search_genre(genre):
                    'description': row[1]
                    } for row in result]
     return movie_list
+
+
+def cast_actors(actor_1, actors_2):
+    """функция, которая получает в 
+    качестве аргумента имена двух 
+    актеров, сохраняет всех актеров 
+    из колонки cast и возвращает список 
+    тех, кто играет с ними в паре 
+    больше 2 раз."""
+
+    actor_1 = "Rose McIver"
+    actors_2 = "Ben Lamb"
 
