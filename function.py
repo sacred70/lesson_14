@@ -30,4 +30,19 @@ def search_title(name_film:str):
                    'description': row[4]} for row in result]
     return movie_list
 
-pprint.pprint( search_title(name_film), indent=1)
+#pprint.pprint( search_title(name_film), indent=1)
+
+
+def search_year(release_year):
+    """поиск по диапазону лет выпуска,
+    выводит первые 100 вариантов."""
+
+    query = f"""SELECT title, release_year FROM netflix WHERE release_year = '{release_year}' ORDER BY release_year desc LIMIT 100"""
+    result = cursor_fetchall(DB_PATH, query)
+    movie_list = [{'release_year': row[1],
+                   'title': row[0]
+                   } for row in result]
+    return movie_list
+
+release_year = 1995
+#pprint.pprint(search_year(release_year), indent=1)
