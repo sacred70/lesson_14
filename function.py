@@ -2,6 +2,7 @@ import sqlite3
 import pprint
 
 
+
 name_film = "Yeh Meri Family"
 
 DB_PATH = 'netflix.db'  # Путь к БД
@@ -15,13 +16,13 @@ def cursor_fetchall(db_path, query):
         return result
 
 
-def search_title(name_film:str):
+def search_title(name_movie:str):
     """Реализуйте поиск по названию.
      Если таких фильмов несколько,
      выведите самый свежий."""
 
 
-    query = f"""SELECT title, country, release_year, listed_in, description FROM netflix WHERE title = '{name_film}' ORDER BY date_added desc LIMIT 1"""
+    query = f"""SELECT title, country, release_year, listed_in, description FROM netflix WHERE title = '{name_movie}' ORDER BY date_added desc LIMIT 1"""
 
     result = cursor_fetchall(DB_PATH, query)
     movie_list = [{'title': row[0],
@@ -47,7 +48,7 @@ def search_rating(inquiry):
     else:
         return "Такого варианта нет"
 
-    #query = f"""SELECT description, rating, title  FROM netflix WHERE rating = 'R' OR rating = 'NC-17'"""
+
     result = cursor_fetchall(DB_PATH, query)
     movie_list = [{'title': row[2],
                    'rating': row[1],
@@ -59,13 +60,26 @@ def search_rating(inquiry):
 #pprint.pprint(search_rating(inquiry), indent=1)
 
 
-def search_year(release_year):
+def search_year(year_from, year_to):
     """поиск по диапазону лет выпуска,
     выводит первые 100 вариантов."""
 
-    query = f"""SELECT title, release_year FROM netflix WHERE release_year = '{release_year}' ORDER BY title desc LIMIT 100"""
+    query = f"""SELECT title, release_year FROM netflix WHERE release_year BETWEEN {year_from} AND {year_to} LIMIT 100"""
     result = cursor_fetchall(DB_PATH, query)
     movie_list = [{'title': row[0],
                    'release_year': row[1]
                    } for row in result]
     return movie_list
+
+
+def search_genre(genre):
+    """получает название жанра в качестве аргумента и возвращает 10 самых свежих фильмов"""
+
+    query = f"""SELECT title, description FROM netflix WHERE listed_in LIKE '%{genre}%' ORDER BY date_added LIMIT 10"""
+    result = cursor_fetchall(DB_PATH, query)
+    movie_list = [{'title': row[0],
+                   'description': row[1]
+                   } for row in result]
+    return movie_list
+
+genre = "Horror Movies"
