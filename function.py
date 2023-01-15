@@ -4,7 +4,7 @@ import pprint
 
 
 
-name_film = "Yeh Meri Family"
+#name_film = "Yeh Meri Family"
 
 DB_PATH = 'netflix.db'  # Путь к БД
 
@@ -102,14 +102,60 @@ def search_genre(genre):
     return movie_list
 
 
-def cast_actors(actor_1, actors_2):
-    """функция, которая получает в 
+def cast_actors(actor_1, actor_2):
+    """Задание №5. функция, которая получает в
     качестве аргумента имена двух 
     актеров, сохраняет всех актеров 
     из колонки cast и возвращает список 
     тех, кто играет с ними в паре 
     больше 2 раз."""
 
-    actor_1 = "Rose McIver"
-    actors_2 = "Ben Lamb"
+
+    query = f"""SELECT netflix.cast 
+        FROM netflix 
+        WHERE netflix.cast  
+        LIKE '%{actor_1}%' 
+        AND netflix.cast  
+        LIKE '%{actor_2}%'"""
+    all_actors = []
+    result = cursor_fetchall(DB_PATH, query)
+    for row in result:
+        for actors in row:
+            all_actors.extend(actors.split(', '))
+    count_actors = []
+    for actor in all_actors:
+
+        if actor != actor_1 and actor != actor_2:
+
+            if all_actors.count(actor) >= 2:
+                count_actors.append(actor)
+        else:
+            continue
+
+    return count_actors
+
+#actor_1 = "Rose McIver"
+#actor_2 = "Ben Lamb"
+#pprint.pprint(cast_actors(actor_1, actor_2))
+
+
+def search_type_yaer_genre(genre, type, yaer):
+    """Задание №6. функция, с помощью которой можно будет
+    передавать тип картины (фильм или сериал),
+    год выпуска и ее жанр и получать на выходе
+    список названий картин с их описаниями"""
+
+    query = f"""SELECT title, description 
+        FROM netflix 
+        WHERE listed_in LIKE '%{genre}%'
+        AND type = '{type}'
+        AND release_year = {yaer}"""
+    result = cursor_fetchall(DB_PATH, query)
+    movie_list = [{'title': row[0],
+                   'description': row[1]
+                   } for row in result]
+    return movie_list
+
+#pprint.pprint(search_type_yaer_genre('Dramas', 'Movie', 2000))
+
 

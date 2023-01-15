@@ -1,5 +1,4 @@
 # coding: utf8
-import sqlite3
 from flask import Flask, render_template
 from function import search_title
 from function import search_year
