@@ -156,6 +156,7 @@ def search_type_yaer_genre(genre, type, yaer):
                    } for row in result]
     return movie_list
 
+
 #pprint.pprint(search_type_yaer_genre('Dramas', 'Movie', 2000))
 
 

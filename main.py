@@ -8,7 +8,6 @@ from function import search_genre
 
 app = Flask(__name__)
 
-
 # show_id text
 # type text
 # title text
