@@ -1,6 +1,7 @@
 import sqlite3
 import pprint
 
+
 name_film = "Yeh Meri Family"
 
 DB_PATH = 'netflix.db'  # Путь к БД
@@ -35,16 +36,18 @@ def search_title(name_film:str):
 
 def search_rating(inquiry):
     """поиск по рейтингу."""
+    inquiry = str(inquiry)
+
     if inquiry == "children":
-        rating_ = 'rating = "G"'
+        query = f"""SELECT description, rating, title  FROM netflix WHERE rating = 'G'"""
     elif inquiry == "family":
-        rating_ = 'rating = "G" OR rating = "PG" OR rating = "PG-13"'
+        query = f"""SELECT description, rating, title  FROM netflix WHERE rating = 'G' OR rating = 'PG' OR rating = 'PG-13'"""
     elif inquiry == "adult":
-        rating_ = 'rating = "R" OR rating = "NC-17"'
+        query = f"""SELECT description, rating, title  FROM netflix WHERE rating = 'R' OR rating = 'NC-17'"""
     else:
         return "Такого варианта нет"
 
-    query = f"""SELECT description, rating, title  FROM netflix WHERE {rating_} """
+    #query = f"""SELECT description, rating, title  FROM netflix WHERE rating = 'R' OR rating = 'NC-17'"""
     result = cursor_fetchall(DB_PATH, query)
     movie_list = [{'title': row[2],
                    'rating': row[1],
