@@ -2,6 +2,7 @@ import sqlite3
 from flask import Flask, render_template
 from function import search_title
 from function import search_year
+from function import search_rating
 
 
 app = Flask(__name__)
@@ -29,6 +30,11 @@ def search_name(title):
 @app.route("/movie/year/to/<int:year>")
 def search_release_year(year):
     return search_year(year)
+
+
+@app.route("/rating/<inquiry>")
+def search_rating(inquiry):
+    return search_rating(inquiry)
 
 
 

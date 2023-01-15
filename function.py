@@ -33,16 +33,36 @@ def search_title(name_film:str):
 #pprint.pprint( search_title(name_film), indent=1)
 
 
+def search_rating(inquiry):
+    """поиск по рейтингу."""
+    if inquiry == "children":
+        rating_ = 'rating = "G"'
+    elif inquiry == "family":
+        rating_ = 'rating = "G" OR rating = "PG" OR rating = "PG-13"'
+    elif inquiry == "adult":
+        rating_ = 'rating = "R" OR rating = "NC-17"'
+    else:
+        return "Такого варианта нет"
+
+    query = f"""SELECT description, rating, title  FROM netflix WHERE {rating_} """
+    result = cursor_fetchall(DB_PATH, query)
+    movie_list = [{'title': row[2],
+                   'rating': row[1],
+                   'description': row[0]
+                   } for row in result]
+    return movie_list
+
+#inquiry = "family"
+#pprint.pprint(search_rating(inquiry), indent=1)
+
+
 def search_year(release_year):
     """поиск по диапазону лет выпуска,
     выводит первые 100 вариантов."""
 
-    query = f"""SELECT title, release_year FROM netflix WHERE release_year = '{release_year}' ORDER BY release_year desc LIMIT 100"""
+    query = f"""SELECT title, release_year FROM netflix WHERE release_year = '{release_year}' ORDER BY title desc LIMIT 100"""
     result = cursor_fetchall(DB_PATH, query)
-    movie_list = [{'release_year': row[1],
-                   'title': row[0]
+    movie_list = [{'title': row[0],
+                   'release_year': row[1]
                    } for row in result]
     return movie_list
-
-release_year = 1995
-#pprint.pprint(search_year(release_year), indent=1)
