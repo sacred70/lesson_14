@@ -1,9 +1,7 @@
 # coding: utf8
 from flask import Flask, render_template
-from function import search_title
-from function import search_year
-from function import search_rating
-from function import search_genre
+from function import search_title, search_year, search_rating, search_genre
+import jsonify
 
 
 app = Flask(__name__)
@@ -24,23 +22,23 @@ app = Flask(__name__)
 
 @app.route("/movie/<title>")
 def search_name(title):
-    return search_title(title)
+    return jsonify(search_title(title))
 
 
 @app.route("/movie/<int:year_from>/to/<int:year_to>")
 def search_release_year(year_from, year_to):
-    return search_year(year_from, year_to)
+    return jsonify(search_year(year_from, year_to))
 
 
 @app.route("/rating/<inquiry>")
 def search_rating_(inquiry):
     inquiry = str(inquiry)
-    return search_rating(inquiry)
+    return jsonify(search_rating(inquiry))
 
 
 @app.route("/genre/<genre>")
 def search_genre_10(genre):
-    return search_genre(genre)
+    return jsonify(search_genre(genre))
 
 
 app.run()
